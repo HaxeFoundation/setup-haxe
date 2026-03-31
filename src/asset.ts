@@ -197,7 +197,7 @@ export class NekoAsset extends Asset {
       }
 
       case 'linux': {
-        return 'linux64';
+        return this.env.arch === 'arm64' ? 'linux-arm64' : 'linux64';
       }
 
       case 'win': {
