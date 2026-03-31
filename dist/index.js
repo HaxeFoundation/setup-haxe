@@ -219,6 +219,9 @@ class NekoAsset extends Asset {
         if (this.env.platform === 'osx' && this.version.startsWith('2.4')) {
             return 'osx-universal';
         }
+        if (this.env.platform === 'linux' && this.env.arch === 'arm64') {
+            return 'linux-arm64';
+        }
         return `${this.env.platform}${this.env.arch}`;
     }
     get nightlyTarget() {
@@ -277,7 +280,7 @@ class HaxeAsset extends Asset {
                 return 'mac';
             }
             case 'linux': {
-                return 'linux64';
+                return this.env.arch === 'arm64' ? 'linux-arm64' : 'linux64';
             }
             case 'win': {
                 return 'windows64';
@@ -320,8 +323,8 @@ class Env {
         if (arch === 'x64') {
             return '64';
         }
-        if (arch === 'arm64' && this.platform === 'osx') {
-            return '64';
+        if (arch === 'arm64') {
+            return this.platform === 'osx' ? '64' : 'arm64';
         }
         throw new Error(`${arch} not supported`);
     }
