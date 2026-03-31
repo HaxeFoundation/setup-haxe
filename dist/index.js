@@ -89,6 +89,10 @@ class Asset {
         this.env = env;
     }
     async setup() {
+        // Do not cache "latest"
+        if (this.version === 'latest') {
+            return this.download();
+        }
         const toolPath = tool_cache.find(this.name, this.version);
         if (toolPath) {
             return toolPath;

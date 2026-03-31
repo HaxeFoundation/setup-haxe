@@ -19,6 +19,11 @@ abstract class Asset {
   constructor(readonly name: string, readonly version: string, protected readonly env: Env) {}
 
   async setup() {
+    // Do not cache "latest"
+    if (this.version === 'latest') {
+      return this.download();
+    }
+
     const toolPath = tc.find(this.name, this.version);
     if (toolPath) {
       return toolPath;
